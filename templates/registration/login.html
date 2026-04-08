@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="form-container glassmorphism fade-in">
+    <h2 class="gradient-text" style="text-align: center; margin-bottom: 2rem;">Welcome Back</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group" style="margin-top: 2rem;">
+            <button class="btn btn-primary" type="submit" style="width: 100%;">Login</button>
+        </div>
+    </form>
+    <div style="text-align: center; margin-top: 1.5rem;">
+        <small style="color: var(--text-secondary);">
+            Need An Account? <a href="{% url 'register' %}" style="color: var(--accent-primary);">Join Nexus</a>
+        </small>
+    </div>
+</div>
+{% endblock content %}

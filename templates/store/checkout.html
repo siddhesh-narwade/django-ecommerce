@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+    <div class="col-lg-6" style="flex: 1; min-width: 300px;">
+        <div class="glassmorphism" id="form-wrapper" style="padding: 2rem; border-radius: 16px;">
+            <form id="form">
+                <div id="user-info">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">User Information:</p>
+                    <div class="form-group">
+                        <input required class="form-control" type="text" name="name" placeholder="Name..">
+                    </div>
+                    <div class="form-group">
+                        <input required class="form-control" type="email" name="email" placeholder="Email..">
+                    </div>
+                </div>
+                
+                <div id="shipping-info">
+                    <hr style="border-color: var(--glass-border); margin: 1.5rem 0;">
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Shipping Information:</p>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="address" placeholder="Address..">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="city" placeholder="City..">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="state" placeholder="State..">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+                    </div>
+                </div>
+
+                <hr style="border-color: var(--glass-border); margin: 1.5rem 0;">
+                <input id="form-button" class="btn btn-primary" style="width: 100%;" type="submit" value="Continue">
+            </form>
+        </div>
+
+        <div class="glassmorphism hidden" id="payment-info" style="padding: 2rem; border-radius: 16px; margin-top: 2rem; display: none;">
+            <p>Paypal Options</p>
+            <button class="btn btn-outline" id="make-payment">Make Payment</button>
+        </div>
+    </div>
+
+    <div class="col-lg-6" style="flex: 1; min-width: 300px;">
+        <div class="glassmorphism" style="padding: 2rem; border-radius: 16px;">
+            <a href="{% url 'cart' %}" class="btn btn-outline">&#x2190; Back to Cart</a>
+            <hr style="border-color: var(--glass-border); margin: 1.5rem 0;">
+            <h3 class="gradient-text">Order Summary</h3>
+            <hr style="border-color: var(--glass-border); margin: 1.5rem 0;">
+
+            {% for item in items %}
+            <div class="cart-row" style="grid-template-columns: 2fr 3fr 1fr 1fr;">
+                <div style="flex:2"><img class="cart-image" src="{{item.product.image.url|default:'#'}}" style="width: 60px; height: 60px;"></div>
+                <div style="flex:2"><p>{{item.product.name}}</p></div>
+                <div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
+                <div style="flex:1"><p>x{{item.quantity}}</p></div>
+            </div>
+            {% endfor %}
+
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                <h5>Items:   {{order.get_cart_items}}</h5>
+                <h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.getElementById('form').addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('Form submitted...')
+        document.getElementById('form-button').classList.add('hidden')
+        document.getElementById('form-button').style.display = 'none';
+        document.getElementById('payment-info').style.display = 'block';
+    })
+
+    document.getElementById('make-payment').addEventListener('click', function(e){
+        submitFormData()
+    })
+
+    function submitFormData(){
+        console.log('Payment button clicked')
+        alert('Transaction completed');
+        window.location.href = "{% url 'store' %}"
+    }
+</script>
+{% endblock content %}
