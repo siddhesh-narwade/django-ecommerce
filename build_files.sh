@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies (use --break-system-packages for Vercel's uv-managed Python)
+pip install -r requirements.txt --break-system-packages
 
 # Run migrations
 python manage.py makemigrations --noinput
