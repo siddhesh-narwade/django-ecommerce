@@ -9,6 +9,7 @@ python manage.py migrate --noinput
 
 # Seed the database with sample products
 python seed_db.py
+python create_admin.py
 
 # Collect static files
 python manage.py collectstatic --noinput
